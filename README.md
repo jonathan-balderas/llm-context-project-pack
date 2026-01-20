@@ -32,7 +32,7 @@ Anyone who uses ChatGPT for repeating workflows like:
 
 ## How the Project Pack workflow works (at a glance)
 
-![Project Pack diagram: Context Index, thread lifecycle, patch outputs from tracker to reminder to schedule](assets/project-pack-social.png)
+![Project Pack diagram: Context Index, thread lifecycle, patch outputs from tracker to reminder to schedule](assets/project-pack-workflow-social.png)
 
 This repo demonstrates a **Project Pack workflow** for using ChatGPT reliably on repeatable tasks.
 
