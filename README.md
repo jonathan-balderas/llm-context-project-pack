@@ -30,6 +30,25 @@ Anyone who uses ChatGPT for repeating workflows like:
 
 ---
 
+## How the Project Pack workflow works (at a glance)
+
+![Project Pack diagram: Context Index, thread lifecycle, patch outputs from tracker to reminder to schedule](assets/project-pack-social.png)
+
+This repo demonstrates a **Project Pack workflow** for using ChatGPT reliably on repeatable tasks.
+
+At a high level:
+- **Context lives outside the chat** in a Project Pack ZIP (Markdown files)
+- A **Context Index** defines ownership and scope for each file
+- Chats are **view-limit aware** and recommend new threads when needed
+- Each interaction produces **deterministic patches** instead of free-form summaries:
+  - `TRACKER PATCH → REMINDER PATCH → SCHEDULE PATCH`
+
+This keeps state auditable, avoids long-chat failures, and reduces maintenance overhead.
+
+For a deeper explanation and a talk track, see [`Diagram.md`](docs/Diagram.md).
+
+---
+
 ## Repo layout
 
 - `Context/` - runnable dummy Project Pack (recommended)
