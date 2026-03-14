@@ -1,51 +1,61 @@
-# llm-context-project-pack: A "Project Pack" workflow for using ChatGPT on real work (without leaking personal data)
+# llm-context-project-pack
 
-This repo is a **public, sanitized template** of a system for working with ChatGPT using:
+A public, sanitized workflow template for running repeatable ChatGPT work with external context packs, ownership-based routing, and deterministic patch outputs.
 
-- A **Project Pack ZIP** as the single source of truth for context
-- A **Context Index** that defines "what files exist" + "what each file owns"
-- Lightweight **thread lifecycle rules** (when to start a new chat to avoid view limits)
-- Self-maintaining **tracking + reminders + schedule patches** (no heavy extraction dependency)
-- A weekly **compression & merge** maintenance prompt (optional)
+This project is built for people who want LLM-assisted workflows to stay structured, auditable, and maintainable instead of drifting into prompt sprawl and long-chat state loss.
 
-It's designed to be:
-- **Low clutter** (single-row trackers, no history logs)
-- **Automation-light** (no external connectors required)
-- **Easy to maintain** (weekly ZIP refresh)
+## Start here
 
-> **Important:** This public repo includes **dummy/sample content only**.  
-> Do **not** commit personal, medical, or sensitive information.
+### For recruiters and hiring managers
+- [What this proves about me](#what-this-proves-about-me)
+- [60-second demo](#60-second-demo)
+- [Architecture overview](#how-the-workflow-works-at-a-glance)
 
----
+### For engineers
+- [`scripts/`](scripts/) for build and validation utilities
+- [`docs/`](docs/) for architecture and guardrails
+- [`examples/`](examples/) for sample inputs and expected outputs
 
-## Who is this for?
+### For users who want to try it
+- [Quick start](#quick-start-template-workflow)
+- [`Context/`](Context/) for the sample pack
+- `scripts/build_project_pack.py` to generate the ZIP
 
-Anyone who uses ChatGPT for repeating workflows like:
-- job search pipeline management (apply → outreach → interview prep)
-- study planning
-- personal routines
-- "assistant-as-COO" planning
+## Why this exists
 
-…and wants a **stable, reusable system** instead of ad-hoc prompt sprawl.
+Long-running chat workflows often break down because context is scattered, ownership is unclear, and state updates become hard to trust. This repo shows one way to keep the workflow stable by moving context outside the chat and making updates deterministic.
 
----
+## How the workflow works (at a glance)
 
-## How the Project Pack workflow works (at a glance)
+1. Keep context outside the chat in a versioned Project Pack ZIP
+2. Define file ownership and scope through a Context Index
+3. Work in lightweight threads that avoid long-chat visibility problems
+4. Emit deterministic operational outputs instead of free-form summaries
 
-![Project Pack diagram: Context Index, thread lifecycle, patch outputs from tracker to reminder to schedule](assets/project-pack-workflow-social.png)
+`TRACKER PATCH -> REMINDER PATCH -> SCHEDULE PATCH`
 
-This repo demonstrates a **Project Pack workflow** for using ChatGPT reliably on repeatable tasks.
+This keeps state auditable, lowers maintenance overhead, and makes repeated workflows easier to reason about.
 
-At a high level:
-- **Context lives outside the chat** in a Project Pack ZIP (Markdown files)
-- A **Context Index** defines ownership and scope for each file
-- Chats are **view-limit aware** and recommend new threads when needed
-- Each interaction produces **deterministic patches** instead of free-form summaries:
-  - `TRACKER PATCH → REMINDER PATCH → SCHEDULE PATCH`
+## 60-second demo
 
-This keeps state auditable, avoids long-chat failures, and reduces maintenance overhead.
+Recommended path:
+1. Open the architecture diagram
+2. Look at the sample `Context/` pack
+3. Run the build script to generate a Project Pack ZIP
+4. Review a sample deterministic patch output in `examples/`
 
-For a deeper explanation and a talk track, see [`Diagram.md`](docs/Diagram.md).
+> Important: this public repo includes dummy and sample content only.
+> Do not commit personal, medical, or sensitive information.
+
+## What this proves about me
+
+This project demonstrates how I approach engineering work:
+
+- I design systems with explicit ownership and source-of-truth boundaries.
+- I reduce ambiguity by turning workflow state into structured, auditable outputs.
+- I build tooling around reliability, validation, and repeatable execution.
+- I think beyond code generation and focus on maintainability, operator experience, and change control.
+- I can translate an abstract workflow problem into architecture, scripts, examples, and release-ready documentation.
 
 ---
 
