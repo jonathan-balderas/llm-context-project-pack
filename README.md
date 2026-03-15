@@ -4,6 +4,8 @@ A public, sanitized workflow template for running repeatable ChatGPT work with e
 
 This project is built for people who want LLM-assisted workflows to stay structured, auditable, and maintainable instead of drifting into prompt sprawl and long-chat state loss.
 
+[![CI](https://github.com/jonathan-balderas/llm-context-project-pack/actions/workflows/ci.yml/badge.svg)](https://github.com/jonathan-balderas/llm-context-project-pack/actions/workflows/ci.yml)
+
 ## Start here
 
 ### For recruiters and hiring managers
