@@ -82,6 +82,28 @@ This project demonstrates how I approach engineering work:
 
 ---
 
+## Design decisions
+
+### Why use a Project Pack ZIP?
+A versioned ZIP gives the workflow a clear, portable source of truth that can be refreshed without depending on long chat history.
+
+### Why keep context outside the chat?
+Long-running chats drift, truncate, and mix concerns. External context makes the workflow easier to audit and maintain.
+
+### Why use a Context Index?
+A Context Index defines ownership and scope for each file so the assistant can load less, route better, and avoid duplication.
+
+### Why deterministic patches instead of free-form summaries?
+Structured patch outputs make state updates easier to review, compare, and apply with less ambiguity.
+
+### Why keep the public repo sanitized?
+The workflow is intended for real operational use, so the public version demonstrates architecture and tooling without exposing private or sensitive data.
+
+### Why move toward structured state over pure markdown state?
+Stable policy belongs in documents, but higher-churn operational state benefits from stricter schemas, better validation, and cleaner read/write boundaries.
+
+---
+
 ## Safety & privacy
 
 - Keep private content private. Use this repo as a **template**.
@@ -89,6 +111,22 @@ This project demonstrates how I approach engineering work:
 - If you want to share your system publicly: publish only architecture, examples, and scripts.
 
 See: `docs/architecture/guardrails.md`
+
+---
+
+## Status
+
+Active public MVP.
+
+This public repository currently exposes the sanitized template, example pack structure, architecture docs, and pack-building utilities. Some newer work from the current internal version is not public yet, including stricter validation, richer state-modeling patterns, and experimental MCP-oriented extensions.
+
+## Roadmap
+
+- [ ] Add validation tests for pack structure, ownership rules, and sample data
+- [ ] Add a 60-second visual demo and expected-output examples
+- [ ] Publish a public-safe validator CLI with clearer commands and exit codes
+- [ ] Expose a small read-only slice of structured state validation
+- [ ] Expand release notes so each version explains what changed and why
 
 ---
 
