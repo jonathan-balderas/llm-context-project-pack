@@ -228,7 +228,7 @@ def bump_file(
     if header.version_idx is None or header.lastupdated_idx is None:
         insert_at = _insertion_index_for_missing_headers(lines)
         insert_block = [
-            f"Version: 1\n",
+            "Version: 1\n",
             f"LastUpdated: {new_stamp}\n",
             "\n",
         ]
