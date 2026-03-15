@@ -9,7 +9,6 @@ Validate a Context/ directory:
 from __future__ import annotations
 
 import re
-import sys
 from pathlib import Path
 
 HEADER_MAX_LINES = 30
