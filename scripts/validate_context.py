@@ -8,7 +8,9 @@ Validate a Context/ directory:
 
 from __future__ import annotations
 
+import argparse
 import re
+import sys
 from pathlib import Path
 
 HEADER_MAX_LINES = 30
@@ -83,13 +85,21 @@ def check_index(index_path: Path) -> list[str]:
     return errs
 
 
-def main() -> int:
-    root = Path("Context")
+def main(argv: list[str] | None = None) -> int:
+    if argv is None:
+        argv = []
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--root", default="Context", help="Context root folder")
+    args = ap.parse_args(argv)
+
+    root = Path(args.root)
     if not root.exists():
-        print("ERROR: Context/ not found")
+        print(f"ERROR: {root}/ not found")
         return 2
 
     errs: list[str] = []
+
     for p in root.rglob("*.md"):
         errs.extend(check_headers(p))
 
@@ -97,7 +107,7 @@ def main() -> int:
     if index.exists():
         errs.extend(check_index(index))
     else:
-        errs.append("Context/System/Context_Index.md not found")
+        errs.append(f"{root}/System/Context_Index.md not found")
 
     if errs:
         print("Validation failed:")
@@ -110,4 +120,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

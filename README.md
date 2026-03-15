@@ -43,6 +43,46 @@ This keeps state auditable, lowers maintenance overhead, and makes repeated work
 
 ## 60-second demo
 
+### 1) External context pack
+![External context pack structure](assets/demo/01-context-pack.png)
+
+Example external context pack with explicit file ownership and versioned documents.
+
+### 2) Build the Project Pack ZIP
+![Build Project Pack ZIP](assets/demo/02-build-pack.png)
+
+Build step that packages the context into a portable Project Pack ZIP.
+
+### 3) Deterministic patch outputs
+![Deterministic patch outputs](assets/demo/03-patch-output.png)
+
+Example deterministic outputs produced by the workflow: tracker, reminder, and schedule patches.
+
+## Example outputs
+These public-safe examples show the kind of deterministic artifacts the workflow can produce:
+
+- [Combined patch preview](examples/demo_outputs/patch_preview.md)
+- [TRACKER PATCH example](examples/demo_outputs/tracker_patch.md)
+- [REMINDER PATCH example](examples/demo_outputs/reminder_patch.md)
+- [SCHEDULE PATCH example](examples/demo_outputs/schedule_patch.md)
+
+## CLI
+
+Install locally:
+
+```bash
+pip install -e .
+```
+
+### Common commands:
+```bash
+project-pack validate
+project-pack build --out Project_Pack.zip
+project-pack check-sample
+```
+
+---
+
 Recommended path:
 1. Open the architecture diagram
 2. Look at the sample `Context/` pack

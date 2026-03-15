@@ -36,6 +36,7 @@ import argparse
 import os
 import re
 import subprocess
+import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -277,7 +278,9 @@ def _iter_context_markdown(repo_root: Path) -> Iterable[Path]:
     return sorted(ctx.rglob("*.md"))
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    if argv is None:
+        argv = []
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo-root", default=".", help="Repo root (default: .)")
     ap.add_argument("--files", nargs="*", help="Explicit file list (relative to repo-root)")
@@ -292,7 +295,7 @@ def main() -> int:
     ap.add_argument("--no-sync-mtime",
                     action="store_true", help="Do not sync file mtime to LastUpdated")
     ap.add_argument("--dry-run", action="store_true", help="Print changes without writing")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     repo_root = Path(args.repo_root).resolve()
     sync_mtime = not args.no_sync_mtime
@@ -329,4 +332,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))

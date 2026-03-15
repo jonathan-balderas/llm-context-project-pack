@@ -15,3 +15,20 @@ select = ["E", "F", "I"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "project-pack-cli"
+version = "0.1.0"
+description = "CLI for building and validating Project Pack workflows"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+include = ["project_pack", "scripts"]
+
+[project.scripts]
+project-pack = "project_pack.cli:main"

@@ -9,15 +9,18 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import sys
 import zipfile
 from pathlib import Path
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    if argv is None:
+        argv = []
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default="Context", help="Context root folder")
     ap.add_argument("--out", default="Project_Pack.zip", help="Output zip filename")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     root = Path(args.root)
     if not root.exists():
@@ -36,4 +39,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv[1:]))
