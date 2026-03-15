@@ -1,10 +1,13 @@
 # llm-context-project-pack
 
+[![CI](https://github.com/jonathan-balderas/llm-context-project-pack/actions/workflows/ci.yml/badge.svg)](https://github.com/jonathan-balderas/llm-context-project-pack/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.11+-blue)
+![License](https://img.shields.io/github/license/jonathan-balderas/llm-context-project-pack)
+![Release](https://img.shields.io/github/v/release/jonathan-balderas/llm-context-project-pack)
+
 A public, sanitized workflow template for running repeatable ChatGPT work with external context packs, ownership-based routing, and deterministic patch outputs.
 
 This project is built for people who want LLM-assisted workflows to stay structured, auditable, and maintainable instead of drifting into prompt sprawl and long-chat state loss.
-
-[![CI](https://github.com/jonathan-balderas/llm-context-project-pack/actions/workflows/ci.yml/badge.svg)](https://github.com/jonathan-balderas/llm-context-project-pack/actions/workflows/ci.yml)
 
 ## Start here
 
