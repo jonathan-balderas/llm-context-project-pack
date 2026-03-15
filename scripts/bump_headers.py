@@ -7,7 +7,8 @@ Updates markdown file headers:
 - LastUpdated: <ISO8601 datetime>  (or date-only if requested)
 
 - Files under Context/** typically contain Version/LastUpdated near the top.
-- Context_Index.md may start with CHATGPT_CONTEXT_INDEX_CANONICAL marker; headers may appear after it.
+- Context_Index.md may start with CHATGPT_CONTEXT_INDEX_CANONICAL marker;
+headers may appear after it.
 
 Modes:
 1) Explicit files: --files path1 path2 ...
@@ -22,7 +23,8 @@ or
 Optionally set file mtime to the new LastUpdated stamp (default: on) to avoid repeated bumps.
 
 Usage examples:
-  python bump_headers.py --files Context/System/ChatGPT_Operating_Guide.md Context/System/New_Chat_Start_Templates.md
+  python bump_headers.py --files \
+  Context/System/ChatGPT_Operating_Guide.md Context/System/New_Chat_Start_Templates.md
   python bump_headers.py --from-git
   python bump_headers.py --auto-scan
   python bump_headers.py --dry-run --from-git
@@ -37,8 +39,7 @@ import subprocess
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable, Optional, Tuple, List
-
+from typing import Iterable, List, Optional, Tuple
 
 VERSION_RE = re.compile(r"^\s*Version:\s*(\d+)\s*$")
 LASTUPDATED_RE = re.compile(r"^\s*LastUpdated:\s*(.+?)\s*$")
@@ -223,8 +224,9 @@ def bump_file(
     new_stamp_dt = datetime.now().astimezone()
     new_stamp = _dt_to_stamp(new_stamp_dt, date_only=date_only)
 
+    inserted_missing_headers = False
 
-    # If headers missing, insert
+    # If headers missing, insert them
     if header.version_idx is None or header.lastupdated_idx is None:
         insert_at = _insertion_index_for_missing_headers(lines)
         insert_block = [
@@ -232,23 +234,26 @@ def bump_file(
             f"LastUpdated: {new_stamp}\n",
             "\n",
         ]
-        new_lines = lines[:insert_at] + insert_block + lines[insert_at:]
-        # If Version exists but LastUpdated doesn't (or vice versa), we'll still increment logic below
-        lines = new_lines
+        lines = lines[:insert_at] + insert_block + lines[insert_at:]
         header = _find_headers(lines)
+        inserted_missing_headers = True
 
-    # Update Version (increment)
     v_idx = header.version_idx
     lu_idx = header.lastupdated_idx
+
     if v_idx is None or lu_idx is None:
         return False, f"SKIP (header parse failed): {path}"
 
-    v_val = header.version_val if header.version_val is not None else 0
-    new_version = v_val + 1
+    if inserted_missing_headers:
+        new_version = 1
+    else:
+        v_val = header.version_val if header.version_val is not None else 0
+        new_version = v_val + 1
 
-    # Replace lines
-    lines[v_idx] = re.sub(VERSION_RE, f"Version: {new_version}", lines[v_idx]).rstrip("\n") + "\n"
-    lines[lu_idx] = re.sub(LASTUPDATED_RE, f"LastUpdated: {new_stamp}", lines[lu_idx]).rstrip("\n") + "\n"
+    lines[v_idx] = re.sub(VERSION_RE,
+                          f"Version: {new_version}", lines[v_idx]).rstrip("\n") + "\n"
+    lines[lu_idx] = re.sub(LASTUPDATED_RE,
+                           f"LastUpdated: {new_stamp}", lines[lu_idx]).rstrip("\n") + "\n"
 
     new_text = "".join(lines)
 
@@ -277,11 +282,15 @@ def main() -> int:
     ap.add_argument("--repo-root", default=".", help="Repo root (default: .)")
     ap.add_argument("--files", nargs="*", help="Explicit file list (relative to repo-root)")
     ap.add_argument("--from-git", action="store_true", help="Use git to find changed files")
-    ap.add_argument("--auto-scan", action="store_true", help="Scan Context/**.md (default if no files/from-git)")
+    ap.add_argument("--auto-scan",
+                    action="store_true", help="Scan Context/**.md (default if no files/from-git)")
     ap.add_argument("--force", action="store_true", help="Bump even if mtime <= LastUpdated")
-    ap.add_argument("--date-only", action="store_true", help="LastUpdated as YYYY-MM-DD (default: ISO datetime)")
-    ap.add_argument("--margin-seconds", type=int, default=2, help="mtime vs LastUpdated threshold (default: 2s)")
-    ap.add_argument("--no-sync-mtime", action="store_true", help="Do not sync file mtime to LastUpdated")
+    ap.add_argument("--date-only",
+                    action="store_true", help="LastUpdated as YYYY-MM-DD (default: ISO datetime)")
+    ap.add_argument("--margin-seconds",
+                    type=int, default=2, help="mtime vs LastUpdated threshold (default: 2s)")
+    ap.add_argument("--no-sync-mtime",
+                    action="store_true", help="Do not sync file mtime to LastUpdated")
     ap.add_argument("--dry-run", action="store_true", help="Print changes without writing")
     args = ap.parse_args()
 
